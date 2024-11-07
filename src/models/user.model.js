@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import jwt from "jsonwebtokens";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 const userSchema = new Schema(
@@ -49,7 +49,7 @@ const userSchema = new Schema(
     },
 
     refreshToken: {
-      type: string,
+      type: String,
     },
   },
   {
@@ -63,9 +63,7 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.isPasswordcorrect.isPasswordCorrect = async function (
-  password
-) {
+userSchema.methods.isPasswordcorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
@@ -95,5 +93,4 @@ userSchema.methods.refershRefreshToken = function () {
   );
 };
 
-userSchema.methods.isPasswordCorrect;
-export const user = mongoose.model("User", userSchema);
+export const User = mongoose.model("User", userSchema);
